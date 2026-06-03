@@ -1,0 +1,20 @@
+Copyright Information:
+----------------------
+
+CthughaNix Modifications (2007–present):
+  Copyright 2007-2026 Brandon Barker and contributors.
+
+Cthugha-L (Linux port, basis of this code):
+  Copyright 1995-1999 Harald Deischinger.
+
+Original Cthugha (DOS/concept):
+  Copyright 1993-2001 Kevin "Zaph" Burfitt.
+
+Other attributions:
+  - parts of DisplayDevice.cc written by Mark Vojkovich
+  - vroot.h: Copyright 1990-1991 Andreas Stolcke / Solbourne Computer Inc.
+    (permissive license, see vroot.h for terms)
+  - waves.cc: contributions by Rus Maxham
+
+This project is licensed under the GNU Lesser General Public License v2.
+See lgpl.txt for the complete license text.

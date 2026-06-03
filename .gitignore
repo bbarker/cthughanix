@@ -1,0 +1,26 @@
+# Nix
+result
+result-*
+
+# Autoconf/automake generated files
+config.h
+config.log
+config.status
+config.cache
+stamp-h1
+autom4te.cache/
+
+# Generated Makefiles (keep Makefile.am and Makefile.in)
+Makefile
+src/Makefile
+tab/Makefile
+doc/Makefile
+
+# Compiler dependency files
+**/.deps/
+
+# Precompiled binaries (not for this platform)
+precompiled/
+
+# Build artifact from old run
+build_errors.txt
