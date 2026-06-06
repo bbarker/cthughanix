@@ -410,6 +410,12 @@ int SoundDeviceFile::read() {
 
 	    bufferPos = (bufferPos + w) % bufferSize;
 	    bufferFill = bufferFill - w;
+	} else if(!isatty(fileno(file)) && !ferror(file)) {
+	    //
+	    // pipe/fifo: clear EOF and wait for more data
+	    //
+	    clearerr(file);
+	    usleep(10000);
 	} else {
 	    //
 	    // close the file
@@ -419,8 +425,22 @@ int SoundDeviceFile::read() {
     } else if(dsp == NULL) {
 	//
 	// playing silently -> no buffering needed
+	// For pipes: drain all available data, keep only the most recent chunk
 	//
-	w = fread(tmpData, 1, rawSize, file);
+	int fd = fileno(file);
+	int flags = fcntl(fd, F_GETFL);
+	fcntl(fd, F_SETFL, flags | O_NONBLOCK);
+	int got;
+	do {
+	    got = fread(tmpData, 1, rawSize, file);
+	    if(got == rawSize) w = got;  // keep reading if full chunk available
+	} while(got == rawSize);
+	clearerr(file);
+	fcntl(fd, F_SETFL, flags);  // restore blocking mode
+	if(w == 0) {
+	    // no data was ready, do a blocking read
+	    w = fread(tmpData, 1, rawSize, file);
+	}
 
     } else if (bufferSize == 0) {
 	// 

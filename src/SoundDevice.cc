@@ -4,6 +4,18 @@
 #include "imath.h"
 #include "cth_buffer.h"
 
+// macOS doesn't define __BYTE_ORDER/__LITTLE_ENDIAN/__BIG_ENDIAN
+#ifndef __BYTE_ORDER
+# if defined(__APPLE__)
+#  include <machine/endian.h>
+#  define __BYTE_ORDER    BYTE_ORDER
+#  define __LITTLE_ENDIAN LITTLE_ENDIAN
+#  define __BIG_ENDIAN    BIG_ENDIAN
+# elif defined(__GLIBC__)
+#  include <endian.h>
+# endif
+#endif
+
 
 int bytesPerSample = 0;
 

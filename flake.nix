@@ -87,19 +87,64 @@
             platforms = platforms.unix;
           };
         };
+
+        # Wrapper script that captures audio from BlackHole via ffmpeg and pipes to cthugha
+        cthughanix-audio = pkgs.writeShellScriptBin "cthughanix-audio" ''
+          set -e
+
+          BLACKHOLE_DEVICE="BlackHole 2ch"
+          GAIN="20"
+
+          # Parse our own flags before passing rest to cthugha
+          ARGS=()
+          while [ $# -gt 0 ]; do
+            case "$1" in
+              --gain) GAIN="$2"; shift 2 ;;
+              --gain=*) GAIN="''${1#--gain=}"; shift ;;
+              *) ARGS+=("$1"); shift ;;
+            esac
+          done
+
+          # Check BlackHole is installed
+          if ! ${pkgs.ffmpeg}/bin/ffmpeg -f avfoundation -list_devices true -i "" 2>&1 | grep -q "$BLACKHOLE_DEVICE"; then
+            echo "ERROR: BlackHole 2ch not found." >&2
+            echo "" >&2
+            echo "Install it with:  brew install --cask blackhole-2ch" >&2
+            echo "" >&2
+            echo "Then create a Multi-Output Device in Audio MIDI Setup" >&2
+            echo "that sends audio to both your speakers and BlackHole 2ch." >&2
+            exit 1
+          fi
+
+          # Find BlackHole device index
+          BH_INDEX=$(${pkgs.ffmpeg}/bin/ffmpeg -f avfoundation -list_devices true -i "" 2>&1 \
+            | grep "audio devices" -A50 | grep "$BLACKHOLE_DEVICE" | grep -o '\[[0-9]*\]' | tr -d '[]')
+
+          # Build ffmpeg filter chain
+          AF_OPTS=""
+          if [ -n "$GAIN" ]; then
+            AF_OPTS="-af volume=$GAIN"
+          fi
+
+          # Pipe ffmpeg output directly into cthugha via stdin
+          exec ${cthughanix}/bin/glcthugha \
+            -D 3 --play /dev/stdin --silent --rate 48000 --stereo --snd-format 3 \
+            "''${ARGS[@]}" < <(${pkgs.ffmpeg}/bin/ffmpeg -nostdin \
+              -f avfoundation -i ":$BH_INDEX" \
+              -probesize 32 -analyzeduration 0 \
+              $AF_OPTS -f s16le -acodec pcm_s16le -ar 48000 -ac 2 pipe:1 2>/dev/null)
+        '';
       in
       {
         packages = {
           default = cthughanix;
           cthughanix = cthughanix;
+          cthughanix-audio = cthughanix-audio;
         };
 
         apps.default = {
           type = "app";
-          program =
-            if isDarwin
-            then "${cthughanix}/bin/glcthugha"
-            else "${cthughanix}/bin/xcthugha";
+          program = "${cthughanix-audio}/bin/cthughanix-audio";
         };
 
         apps.glcthugha = {
@@ -107,8 +152,17 @@
           program = "${cthughanix}/bin/glcthugha";
         };
 
+        apps.no-audio = {
+          type = "app";
+          program =
+            if isDarwin
+            then "${cthughanix}/bin/glcthugha"
+            else "${cthughanix}/bin/xcthugha";
+        };
+
         devShells.default = pkgs.mkShell {
           inputsFrom = [ cthughanix ];
+          packages = [ pkgs.ffmpeg ];
         };
       }
     );
