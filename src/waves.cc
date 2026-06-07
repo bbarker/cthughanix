@@ -55,7 +55,9 @@ CoreOptionEntry * _waves[] = {
     new WaveEntry(wave_buff9,		"Walking",	"Walking"),		// 6
     new WaveEntry(wave_buff10,		"Falling",	"Falling"),		// 7
     new WaveEntry(wave_buff11,		"Lissa",	"Lissa"),		// 8
-    new WaveEntry(wave_buff14,		"LineX",	"Line X"),		// 9
+    new WaveEntry(wave_buff12,		"XYScope",	"XY Scope"),		// 9
+    new WaveEntry(wave_buff13,		"Radial",	"Radial"),		// 10
+    new WaveEntry(wave_buff14,		"LineX",	"Line X"),		// 11
     new WaveEntry(wave_buff15,	 	"Light1", 	"Lightning 1"),		// 10
     new WaveEntry(wave_buff16, 		"Light2", 	"Lightning 2"),		// 11
     new WaveEntry(wave_pete0,		"Pete0",	"FireFlies"),		// 12
@@ -618,6 +620,51 @@ void wave_buff11() {		/* Lissa */
 	tmp2= data[x][1];
 
 	putat( (tmp2+32)%BUFF_WIDTH, (tmp+200-28)%BOTTOM, tcolor(tmp) );
+    }
+}
+
+void wave_buff12() {		/* XY Scope (connected Lissajous) */
+    int xx, yy, last_x = MID_X, last_y = MID_Y;
+
+    prepareSoundData(1024);
+
+    for(int ii=0; ii < 1024; ii++) {
+	xx = MID_X + ((data[ii][0] - 128) >> int(CthughaBuffer::current->waveScale));
+	yy = MID_Y + ((data[ii][1] - 128) >> int(CthughaBuffer::current->waveScale));
+
+	xx = max(0, min(BUFF_WIDTH-1, xx));
+	yy = max(0, min(BOTTOM-1, yy));
+
+	draw_line(last_x, last_y, xx, yy, tcolor(data[ii][0]));
+	last_x = xx;
+	last_y = yy;
+    }
+}
+
+void wave_buff13() {		/* Radial */
+    static int angle_offset = 0;
+    int cx = MID_X, cy = MID_Y;
+    int last_x = -1, last_y = -1;
+
+    prepareSoundData(360);
+
+    angle_offset = (angle_offset + 1) % 360;
+
+    for(int ii=0; ii < 360; ii++) {
+	int angle = (ii + angle_offset) % 360;
+	int radius = (data[ii][0] - 128 + data[ii][1] - 128) / 2;
+	radius = MID_Y/2 + (radius >> int(CthughaBuffer::current->waveScale));
+
+	int xx = cx + (radius * Bsine[(angle * BUFF_WIDTH / 360) % BUFF_WIDTH]) / 128;
+	int yy = cy + (radius * Bsine[((angle + 90) * BUFF_WIDTH / 360) % BUFF_WIDTH]) / 128;
+
+	xx = max(0, min(BUFF_WIDTH-1, xx));
+	yy = max(0, min(BOTTOM-1, yy));
+
+	if(last_x >= 0)
+	    draw_line(last_x, last_y, xx, yy, tcolor(data[ii][0]));
+	last_x = xx;
+	last_y = yy;
     }
 }
 
