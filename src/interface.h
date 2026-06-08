@@ -60,6 +60,9 @@ public:
     char * silenceMsg;
     int silenceLine;
 
+    static char osdText[256];
+    static int osdTimer;	// frames remaining to show OSD
+
     Interface(const char * n, const char * ti, const char * te);
     Interface(const char * n, const char * ti, const char * te,
               InterfaceElement * el[], int nEl);
@@ -75,6 +78,7 @@ public:
     virtual void doKey(int key);
 
     void msg(char * msg);
+    static void osd(const char * text);
 
     static Interface * getCurrent() { return current; }
 };

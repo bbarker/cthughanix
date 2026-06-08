@@ -8,6 +8,8 @@
 #include "CoreOption.h"
 
 extern OptionInt sound_minnoise;		/* quiet is below this */
+extern OptionInt softwareGain;			/* software gain (10 = 1.0x) */
+extern OptionOnOff autoGain;			/* auto-gain normalization */
 
 class SoundAnalyze {
    
@@ -27,6 +29,8 @@ public:
     double intensity;		// smoothed and normalized amplitude
 
     double speed;
+
+    float currentGain;		// effective gain after auto-gain
 };
 
 extern SoundAnalyze soundAnalyze;

@@ -2,6 +2,7 @@
 #include "imath.h"
 #include "AutoChanger.h"
 #include "SoundAnalyze.h"
+#include "BeatDetect.h"
 #include "interface.h"
 #include "display.h"
 #include "options.h"
@@ -75,9 +76,9 @@ void AutoChanger::operator()() {
 	}
 	
 		
-    /* Check for enough fire to change */
+    /* Check for enough fire to change (use band-specific beat detection) */
     if( int(changeFireLevel) )
-	if ( soundAnalyze.fireLevel > int(changeFireLevel) ) {
+	if ( beatDetect.beat[BEAT_BASS] && soundAnalyze.fireLevel > int(changeFireLevel) ) {
 	    soundAnalyze.fireLevel = 0;
 	    change();
 	    return;

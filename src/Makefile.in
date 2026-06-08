@@ -65,7 +65,7 @@ am__objects_1 = Option.$(OBJEXT) OptionInt.$(OBJEXT) \
 	info_title_usage.$(OBJEXT) disp-ncurses.$(OBJEXT) \
 	SoundDevice.$(OBJEXT) SoundServer.$(OBJEXT) misc.$(OBJEXT) \
 	DisplayDevice.$(OBJEXT) AutoChanger.$(OBJEXT) \
-	SoundAnalyze.$(OBJEXT) CthughaDisplay.$(OBJEXT) \
+	SoundAnalyze.$(OBJEXT) BeatDetect.$(OBJEXT) CthughaDisplay.$(OBJEXT) \
 	keymap.$(OBJEXT) InterfaceCredits.$(OBJEXT) \
 	InterfaceList.$(OBJEXT) joystick.$(OBJEXT)
 am__objects_2 = $(am__objects_1) palettes.$(OBJEXT) pcx.$(OBJEXT) \
@@ -245,7 +245,7 @@ GENSRC = Option.cc OptionInt.cc CoreOption.cc CoreOptionEntry.cc	\
 	Mixer.cc CDPlayer.cc imath.cc sound.cc	IniFiles.cc		\
 	Interface.cc network.cc info_title_usage.cc disp-ncurses.cc	\
 	SoundDevice.cc SoundServer.cc misc.cc DisplayDevice.cc		\
-	AutoChanger.cc SoundAnalyze.cc  CthughaDisplay.cc 		\
+	AutoChanger.cc SoundAnalyze.cc BeatDetect.cc  CthughaDisplay.cc 		\
 	keymap.cc InterfaceCredits.cc InterfaceList.cc			\
 	joystick.cc
 
@@ -288,7 +288,7 @@ tabinfo_SOURCES = tabinfo.cc
 
 #removed  getopt.h
 noinst_HEADERS = \
-	AutoChanger.h     SoundAnalyze.h    flames.h          pcx.h		\
+	AutoChanger.h     SoundAnalyze.h    BeatDetect.h    flames.h          pcx.h		\
         CDPlayer.h        SoundDevice.h     sound.h           \
 	CoreOption.h      SoundProcess.h    imath.h           tab_header.h	\
 	CthughaBuffer.h   SoundServer.h     information.h     translate.h	\
@@ -416,6 +416,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Option.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/OptionInt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoundAnalyze.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/BeatDetect.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoundDevice.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoundDeviceDSP.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoundDeviceFile.Po@am__quote@

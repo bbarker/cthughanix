@@ -232,12 +232,27 @@ void Interface::display() {
 	silenceMsg = NULL;
     } else if( (silenceMsg != NULL) && (nElements == 0))
 	displayDevice->print(silenceMsg, silenceLine, 'c', TEXT_COLOR_NORMAL);
+
+    /* OSD notification */
+    if (osdTimer > 0) {
+	displayDevice->print(osdText, 0, 'l', TEXT_COLOR_NORMAL);
+	osdTimer--;
+    }
 }
 
 
 void Interface::msg(char * msg) {
     silenceMsg = msg;
     silenceLine = rand() % (text_size.y - 5);
+}
+
+char Interface::osdText[256] = "";
+int Interface::osdTimer = 0;
+
+void Interface::osd(const char * text) {
+    strncpy(osdText, text, 255);
+    osdText[255] = '\0';
+    osdTimer = 60;	// ~2 seconds at 30fps
 }
 
 

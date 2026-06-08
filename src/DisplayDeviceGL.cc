@@ -25,6 +25,7 @@
 #endif
 
 int fullScreen = -1;		// don't mess around by default
+static int isFullScreen = 0;	// current fullscreen state
 
 
 xy screenSizes[] = {
@@ -482,5 +483,16 @@ public:
 
 void newDisplayDevice() {
     displayDevice = new DisplayDeviceGL();
+}
+
+void toggleFullscreen() {
+    if (isFullScreen) {
+	glutReshapeWindow(640, 480);
+	glutPositionWindow(100, 100);
+	isFullScreen = 0;
+    } else {
+	glutFullScreen();
+	isFullScreen = 1;
+    }
 }
 

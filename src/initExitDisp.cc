@@ -9,6 +9,7 @@
 #include "waves.h"
 #include "Option.h"
 #include "SoundAnalyze.h"
+#include "BeatDetect.h"
 #include "AutoChanger.h"
 #include "CthughaBuffer.h"
 #include "SoundServer.h"
@@ -147,6 +148,7 @@ void run(int doDisplay) {
 
     P(T[2] = getTime();)
     soundAnalyze();
+    beatDetect.analyze();
 
     P(T[3] = getTime();)
     (*autoChanger)();

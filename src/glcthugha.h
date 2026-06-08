@@ -7,6 +7,7 @@
 #include "CthughaBuffer.h"
 
 extern int fullScreen;
+void toggleFullscreen();
 
 class ScreenEntryGL : public CoreOptionEntry {
 public:

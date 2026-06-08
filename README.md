@@ -115,6 +115,10 @@ nix run .#cthughanix-audio -- --gain 50
 - `m` / `M` — Cycle sound processing mode forward/backward
 - `p` / `P` — Cycle palette forward/backward
 - `z` / `Z` — Cycle zoom level
+- `[` / `]` — Decrease/increase beat sensitivity (lower = more triggers)
+- `{` / `}` — Decrease/increase software gain
+- `a` — Toggle auto-gain normalization
+- `F11` — Toggle fullscreen
 
 ### Presets
 

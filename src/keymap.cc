@@ -9,10 +9,12 @@
 #include "AutoChanger.h"
 #include "SoundProcess.h"
 #include "SoundAnalyze.h"
+#include "BeatDetect.h"
 #include "CthughaBuffer.h"
 #include "imath.h"
 #include "CthughaDisplay.h"
 #include "DisplayDevice.h"
+#include "glcthugha.h"
 
 #include <ctype.h>
 #include <string.h>
@@ -314,12 +316,15 @@ ACTION(quit)		{ cthugha_close++; }
 ACTION(screenChg)	{ screen.change(int(v), 0); }
 ACTION(zoomChg)		{ zoom.change(int(v)); }
 ACTION(bufferChg)	{ CthughaBuffer::nCurrent.change(int(v)); }
-ACTION(flameChg)	{ CthughaBuffer::current->flame.change(int(v), 0); }
+ACTION(flameChg)	{ CthughaBuffer::current->flame.change(int(v), 0); 
+			  Interface::osd(CthughaBuffer::current->flame.current()->Name()); }
 ACTION(flameGeneral)    { CthughaBuffer::current->flameGeneral.changeRandom(); }
-ACTION(waveChg)		{ CthughaBuffer::current->wave.change(int(v), 0); }
+ACTION(waveChg)		{ CthughaBuffer::current->wave.change(int(v), 0);
+			  Interface::osd(CthughaBuffer::current->wave.current()->Name()); }
 ACTION(waveScaleChg)	{ CthughaBuffer::current->waveScale.change(int(v), 0); }
 ACTION(objectChg)	{ CthughaBuffer::current->object.change(int(v), 0); }
-ACTION(translateChg)	{ CthughaBuffer::current->translate.change(int(v), 0); }
+ACTION(translateChg)	{ CthughaBuffer::current->translate.change(int(v), 0);
+			  Interface::osd(CthughaBuffer::current->translate.current()->Name()); }
 ACTION(soundProcessChg) { CthughaBuffer::current->soundProcess.change(int(v), 0); }
 ACTION(borderChg)	{ CthughaBuffer::current->border.change(int(v), 0); }
 ACTION(flashlightChg)	{ CthughaBuffer::current->flashlight.change(int(v), 0); }
@@ -327,6 +332,10 @@ ACTION(paletteChg)	{ CthughaBuffer::current->palette.change(int(v), 0); }
 ACTION(tableChg)	{ CthughaBuffer::current->table.change(int(v), 0); }
 ACTION(pcxChg)		{ CthughaBuffer::current->pcx.change(int(v),0); }
 ACTION(lockChg)		{ lock.change(+1); }
+ACTION(beatSensChg)	{ beatSensitivity.change(int(v)); }
+ACTION(gainChg)		{ softwareGain.change(int(v)); }
+ACTION(autoGainToggle)	{ autoGain.change(+1); }
+ACTION(fullscreenToggle) { toggleFullscreen(); }
 ACTION(lightChg)	{ light.change(int(v), 0); }
 ACTION(backgroundChg)	{ background.change(int(v), 0); }
 ACTION(flyChg)		{ fly.change(int(v), 0); }
