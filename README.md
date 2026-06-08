@@ -102,8 +102,23 @@ nix run .#cthughanix-audio -- --gain 50
 ## Keyboard Controls
 
 - `l` — Lock/unlock auto-changing (pause cycling through visualizations)
+- `\` — Randomize all effects
+- `Enter` — Randomize one effect
 - `Esc` — Quit
-- `F1` — Help screen
+
+### Effect Cycling
+
+- `f` / `F` — Cycle flame (blur/decay) mode forward/backward
+- `t` / `T` — Cycle translate (warp) mode forward/backward
+- `w` / `W` — Cycle wave (drawing) mode forward/backward
+- `d` / `D` — Cycle screen/display mode forward/backward
+- `m` / `M` — Cycle sound processing mode forward/backward
+- `p` / `P` — Cycle palette forward/backward
+- `z` / `Z` — Cycle zoom level
+
+### Presets
+
+- `0`–`9` — Load/save preset (press to load, Shift+number to save)
 
 ## Tips
 

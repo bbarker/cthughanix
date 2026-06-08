@@ -74,10 +74,17 @@
           '';
 
           postInstall = ''
-            mkdir -p $out/lib/cthughanix/{map,pcx,tab}
-            cp map/*.map $out/lib/cthughanix/map/ || true
-            cp pcx/*.pcx.gz $out/lib/cthughanix/pcx/ || true
-            cp tab/*.cmd $out/lib/cthughanix/tab/ || true
+            mkdir -p $out/lib/CthughaNix/{map,pcx,tab}
+            cp map/*.map $out/lib/CthughaNix/map/ || true
+            cp pcx/*.pcx.gz $out/lib/CthughaNix/pcx/ || true
+            cp tab/*.cmd $out/lib/CthughaNix/tab/ || true
+            cp tab/*.tab $out/lib/CthughaNix/tab/ 2>/dev/null || true
+
+            # Build new tab generators not in Makefile.in
+            pushd $NIX_BUILD_TOP/$sourceRoot
+            $CC -O2 tab/cmd_ripple.c -lm -o $out/lib/CthughaNix/tab/cmd_ripple
+            $CC -O2 tab/cmd_tunnel.c -lm -o $out/lib/CthughaNix/tab/cmd_tunnel
+            popd
           '';
 
           meta = with pkgs.lib; {

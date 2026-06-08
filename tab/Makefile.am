@@ -22,6 +22,12 @@ cmd_downspiral_LDADD = -lm
 cmd_randswirls_SOURCES = cmd_randswirls.c
 cmd_randswirls_LDADD = -lm
 
+cmd_ripple_SOURCES = cmd_ripple.c
+cmd_ripple_LDADD = -lm
+
+cmd_tunnel_SOURCES = cmd_tunnel.c
+cmd_tunnel_LDADD = -lm
+
 cmdRead_SOURCES = cmdRead.cc
 cmdRead_LDADD = -lm
 
@@ -29,13 +35,13 @@ cmdRead_LDADD = -lm
 # call this noinst, because it gets installed manually
 noinst_PROGRAMS = cmd_huricn cmd_smoke cmd_space cmd_gentable 		\
 		  cmd_bighalfwheel cmd_downspiral cmdRead		\
-		  cmd_randswirls
+		  cmd_randswirls cmd_ripple cmd_tunnel
 
 noinst_DATA = 	randswirls.cmd						\
 		bighalfwheel.cmd  hurricane.cmd     space-fast.cmd	\
 		downspiral.cmd    rotate.cmd        space-slow.cmd	\
 		gentable.cmd      smoke.cmd         yin-yang.cmd	\
-		cmdRead.cmd
+		cmdRead.cmd       ripple.cmd        tunnel.cmd
 
 
 
